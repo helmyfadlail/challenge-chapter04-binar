@@ -1,18 +1,30 @@
+import { Op } from "sequelize";
 import Car from "../models/cars.js";
 import fs from "fs";
 
 const getAllCars = async (req, res) => {
-  console.log(req.url);
+  const search = req.query.search;
+  const id = req.params.id;
+  let result = [];
   try {
-    const result = await Car.findAll();
-    res.render("pages/index", { title: "Home page", cars: result, URL: req.url });
+    if (search) {
+      result = await Car.findAll({
+        where: {
+          name: {
+            [Op.substring]: search,
+          },
+        },
+      });
+    } else {
+      result = await Car.findAll();
+    }
+    res.render("pages/index", { title: "Home page", cars: result, URL: req.url, titleLink: "", search: search, editID: id });
   } catch (error) {
     console.error(error);
   }
 };
 
 const createNewCar = async (req, res) => {
-  console.log(req.url);
   // check if image doesn't exist
   if (req.file === undefined) {
     req.session.message = { type: "danger", message: "Please input a valid image" };
@@ -44,9 +56,10 @@ const createNewCar = async (req, res) => {
 
 const editCar = async (req, res) => {
   const id = req.params.id;
+  const search = req.query.search;
   try {
     const result = await Car.findByPk(id);
-    res.render("pages/edit", { title: "Edit Car", titleLink: "Update Car Information", car: result, URL: req.url });
+    res.render("pages/edit", { title: "Edit Car", titleLink: "Update Car Information", car: result, URL: req.url, search: search, editID: id });
   } catch (error) {
     res.redirect("/cars");
   }
@@ -59,6 +72,11 @@ const updateCar = async (req, res) => {
     // if image not update
     newImage = req.body.old_image;
   } else if (req.file) {
+    // check image can't over than 3mb
+    if (req.file.size > 3000000) {
+      req.session.message = { type: "danger", message: "Image should be no more than 3MB" };
+      return res.redirect("/cars");
+    }
     // if image update and delete old image
     newImage = req.file.filename;
     fs.unlink(`public/uploads/${req.body.old_image}`, function (err) {
@@ -70,12 +88,6 @@ const updateCar = async (req, res) => {
   // define the req body and image
   const id = req.params.id;
   const { name, rentPrice, size, type } = req.body;
-
-  // check image can't over than 3mb
-  if (req.file.size > 3000000) {
-    req.session.message = { type: "danger", message: "Image should be no more than 3MB" };
-    return res.redirect("/cars");
-  }
 
   // find id for update single car
   const findId = await Car.findByPk(id);

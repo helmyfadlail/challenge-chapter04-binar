@@ -6,7 +6,9 @@ const router = express.Router();
 
 router.get("/cars", getAllCars);
 router.get("/cars/add", (req, res) => {
-  res.render("pages/add", { title: "Add Car", titleLink: "Add New Car", URL: req.url });
+  const search = req.query.search;
+  const id = req.params.id;
+  res.render("pages/add", { title: "Add Car", titleLink: "Add New Car", URL: req.url, search: search, editID: id });
 });
 router.get("/cars/edit/:id", editCar);
 router.post("/cars/create", upload, createNewCar);

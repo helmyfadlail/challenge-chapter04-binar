@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="/css/main.css" />
   </head>
   <body>
-    <% if (URL) { %>
+    <% const searchURL = search %> <% const id = editID %> <% if (URL === "/cars" || URL ==="/cars/add" || URL === `/cars?search=${searchURL}` || URL
+    === `/cars/edit/${id}`) { %>
     <div class="row mx-0 d-flex">
       <!-- include menubar -->
       <%- include('./components/menubar.ejs') %>
@@ -26,7 +27,7 @@
             <div class="d-flex align-items-center gap-1">
               <span class="fw-bold">Cars</span>
               <i class="bi bi-caret-right"></i>
-              <% if (URL === "/cars") { %>
+              <% if (URL === "/cars" || URL === "/cars?search=text") { %>
               <span class="text-decoration-none text-dark">List car</span>
               <% } else {%>
               <span><a href="/cars" class="text-decoration-none text-dark fw-bold">List car</a></span>
