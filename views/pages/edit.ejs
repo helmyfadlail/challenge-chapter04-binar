@@ -48,7 +48,8 @@
         <div class="input">
           <input type="file" class="form-control" name="image" id="file" />
           <label for="file">
-            <span id="label" class="text-dark"><%= car.image %></span>
+            <% const imgCar = car.image.split("_") %>
+            <span id="label" class="text-dark"><%= imgCar[2] %></span>
             <i id="logo" class="bi bi-upload"></i>
           </label>
         </div>
