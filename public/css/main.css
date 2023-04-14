@@ -1,0 +1,203 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap");
+
+body {
+  font-family: "IBM Plex Sans", sans-serif;
+  background-color: #f4f5f7;
+  overflow-x: hidden;
+}
+
+.menu-bar {
+  background-color: #0d28a6;
+  max-width: 62px;
+  z-index: 2;
+}
+
+.menu-bar .logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.menu-bar .logo img {
+  width: 30px;
+  height: 30px;
+}
+
+.menu-bar .menu a {
+  width: 100%;
+}
+
+.menu-bar .menu a:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.menu-bar .menu a > img {
+  width: 22px;
+  height: 22px;
+}
+
+.menu-bar .menu a > p {
+  font-size: 11px;
+  font-weight: 300;
+}
+
+/* navbar section */
+.navbar {
+  margin-left: 0.6rem;
+  padding: 0.8rem 0;
+  z-index: 1;
+}
+
+.navbar-brand > img {
+  margin-left: 85px;
+  width: 88px;
+  height: auto;
+}
+
+/* sidebar section */
+.sidebar {
+  background-color: #fff;
+  top: 60px;
+  left: 62px;
+  width: 195px;
+  transition: 0.3s ease-in-out;
+}
+
+.sidebar.slide {
+  left: -200px;
+}
+
+.sidebar .sidebar-menu {
+  margin: 30px 0;
+}
+
+.sidebar .sidebar-menu > a {
+  font-size: 14px;
+  display: block;
+  padding: 8px 0 8px 30px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  color: #8a8a8a;
+  transition: 0.3s ease-in-out;
+}
+
+.sidebar .sidebar-menu > a:nth-child(2) {
+  color: #222;
+  background-color: #cfd4ed;
+}
+
+/* main section */
+#content {
+  position: absolute;
+  top: 68px;
+  padding: 1.5rem;
+}
+
+#content.slide > div {
+  padding-left: 55px;
+}
+
+#content > div {
+  transition: 0.3s ease-in-out;
+  padding-left: 250px;
+}
+
+.cars-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(288px, 1fr));
+  row-gap: 30px;
+  place-items: center;
+}
+
+.carList {
+  display: none;
+}
+
+/* show car */
+.show {
+  display: flex;
+}
+
+.image-car {
+  max-width: 250px;
+  height: 250px;
+  object-fit: cover;
+}
+
+.input {
+  position: relative;
+  max-width: 400px;
+  white-space: nowrap;
+}
+
+.input input {
+  display: none;
+}
+
+.input label {
+  border: 1px solid #d0d0d0;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  color: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.input label i {
+  border-radius: 0 6px 6px 0;
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  color: #000;
+  background-color: #fff;
+  padding: 6px 12px;
+}
+
+@media only screen and (max-width: 992px) {
+  #content > div {
+    padding-left: 55px;
+  }
+
+  .sidebar {
+    margin-left: -200px;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .cars-container {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+/* btn-blue */
+.btn-outline-primary {
+  border: 1px solid #0d28a6 !important;
+  color: #0d28a6;
+}
+
+.btn-outline-primary.active {
+  border: 1px solid #0d28a6 !important;
+  color: #fff;
+  background-color: #0d28a6;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0d28a6;
+}
+
+.btn-primary {
+  background-color: #0d28a6;
+}
+
+.btn-primary:hover {
+  background-color: #0b207c;
+}
+
+/* sweet alert custom */
+.swal2-confirm,
+.swal2-cancel {
+  width: 100px !important;
+}

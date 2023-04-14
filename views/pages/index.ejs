@@ -1,0 +1,94 @@
+<div class="main-content mt-4">
+  <div class="row d-flex flex-md-row flex-column gap-2">
+    <div class="col d-flex align-items-center">
+      <h5 class="fw-bold m-0">List Car</h5>
+    </div>
+    <div class="col d-flex justify-content-start justify-content-md-end">
+      <a href="/cars/add" class="btn btn-primary text-white rounded-0"><i class="bi bi-plus-lg"></i> Add New Car</a>
+    </div>
+  </div>
+  <div class="row me-1">
+    <% if (message) { %>
+    <div class="alert alert-<%= message.type %> alert-dismissible fade show mt-3 mb-0" role="alert">
+      <strong><%= message.message %></strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% } %>
+  </div>
+  <div class="row">
+    <div class="d-flex gap-3 mt-3 flex-wrap" id="btnContainer">
+      <button onclick="filterSizeCars('all')" class="btn btn-outline-primary active rounded-0">All</button>
+      <button onclick="filterSizeCars('Small')" class="btn btn-outline-primary rounded-0">Small</button>
+      <button onclick="filterSizeCars('Medium')" class="btn btn-outline-primary rounded-0">Medium</button>
+      <button onclick="filterSizeCars('Large')" class="btn btn-outline-primary rounded-0">Large</button>
+    </div>
+  </div>
+  <div class="row">
+    <% if (cars != "") { %>
+    <div class="cars-container mt-4 mb-5">
+      <% cars.forEach((row, index) => { %>
+      <div class="card shadow-sm h-100 carList <%= row.size %>">
+        <img src="<%= row.image %>" class="card-img-top py-5 px-3 image-car" alt="<%= row.name %>" />
+        <div class="card-body gap-2 gap-md-3 d-flex flex-column">
+          <p class="card-text mb-0" style="font-size: 14px"><%= row.name %> / <%= row.type %></p>
+
+          <!-- converting to rupiah -->
+          <% const price = Intl.NumberFormat("id-ID", { currency: "IDR", }).format(row.rentPrice); %>
+          <!-- end converting to rupiah -->
+          <h6 class="card-title mb-0 fw-bold"><%= price %> / hari</h6>
+
+          <!-- converting time -->
+          <% const time = new Date(row.updatedAt); const date = time.getDate(); const month = time.toLocaleString("default", { month: "short" });
+          const year = time.getFullYear(); const hours = time.getHours(); const minutes = time.getMinutes(); const formatDate = `${date} ${month}
+          ${year}, ${hours}:${minutes}`;%>
+          <!-- end converting time -->
+          <p class="text-secondary mb-0" style="font-size: 14px"><i class="bi bi-clock me-1"></i> Updated at <%= formatDate %></p>
+
+          <div class="d-flex gap-3 mt-auto">
+            <button type="button" class="btn btn-danger w-100 py-2 rounded-0" onclick="confirm('<%= row.id %>')">
+              <i class="bi bi-trash"></i> Delete
+            </button>
+            <a href="/cars/edit/<%= row.id %>" class="btn btn-success w-100 py-2 rounded-0"><i class="bi bi-pencil-square"></i> Edit</a>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+    <% } else { %>
+    <h1 class="text-secondary mt-5 text-center">No cars found in the database</h1>
+    <% } %>
+  </div>
+</div>
+<script>
+  function confirm(id) {
+    const styleButton = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-primary me-3",
+        cancelButton: "btn btn-outline-primary",
+      },
+      buttonsStyling: false,
+    });
+    styleButton
+      .fire({
+        imageUrl: "https://i.ibb.co/6WHPpcz/deletecar-image.png",
+        imageAlt: "deletecar-image",
+        imageWidth: 180,
+        imageHeight: 150,
+        title: "Menghapus Data Mobil",
+        text: "Setelah di hapus, data mobil tidak dapat dikembalikan. Yakin ingin menghapus?",
+        showCancelButton: true,
+        cancelButtonText: "Tidak",
+        confirmButtonText: "Ya",
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          styleButton.fire("Terhapus!", "Data Mobil Terhapus!.", "success");
+          return fetch(`http://localhost:5000/cars/delete/${id}`, {
+            method: "POST",
+          });
+        } else if (result.dismiss === styleButton.DismissReason.cancel) {
+          styleButton.fire("Batal Menghapus", "Data Mobil Tidak Dihapus", "error");
+        }
+      });
+  }
+</script>

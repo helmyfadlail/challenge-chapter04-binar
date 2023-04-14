@@ -1,0 +1,66 @@
+<div class="main-content mt-4">
+  <h4 class="fw-bold">Update Car Information</h4>
+  <% if (message) { %>
+  <div class="alert alert-<%= message.type %> alert-dismissible fade show mt-3 mb-0 me-3" role="alert">
+    <strong><%= message.message %></strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  <% } %>
+  <form
+    action="/cars/update/<%= car.id %>"
+    method="POST"
+    enctype="multipart/form-data"
+    class="d-flex flex-column gap-3 p-3 mt-4 me-3"
+    style="background-color: #fff"
+  >
+    <div class="row">
+      <label class="form-label col-md-2 col-form-label d-flex align-items-center">Nama Mobil</label>
+      <div class="col-md-10">
+        <input type="text" class="form-control" value="<%= car.name %>" name="name" placeholder="Avanza" style="max-width: 400px" />
+      </div>
+    </div>
+    <div class="row">
+      <label class="form-label col-md-2 col-form-label d-flex align-items-center">Tipe Mobil</label>
+      <div class="col-md-10">
+        <input type="text" class="form-control" value="<%= car.type %>" name="type" placeholder="Sedan" style="max-width: 400px" />
+      </div>
+    </div>
+    <div class="row">
+      <label class="form-label col-md-2 col-form-label d-flex align-items-center">Sewa Per Hari</label>
+      <div class="col-md-10">
+        <input type="number" class="form-control" value="<%= car.rentPrice %>" name="rentPrice" placeholder="Rp 0,-" style="max-width: 400px" />
+      </div>
+    </div>
+    <div class="row">
+      <label class="form-label col-md-2 col-form-label d-flex align-items-center">Ukuran</label>
+      <div class="col-md-10">
+        <select id="size" name="size" class="form-select" style="max-width: 400px">
+          <option hidden selected value="<%= car.size %>"><%= car.size %></option>
+          <option value="Small">Small</option>
+          <option value="Medium">Medium</option>
+          <option value="Large">Large</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <label class="form-label col-md-2 col-form-label d-flex">Foto</label>
+      <div class="col-md-10">
+        <div class="input">
+          <input type="file" class="form-control" name="image" id="file" />
+          <label for="file">
+            <span id="label" class="text-dark"><%= car.image %></span>
+            <i id="logo" class="bi bi-upload"></i>
+          </label>
+        </div>
+        <input type="hidden" name="old_image" value="<%= car.image %>" />
+        <div class="form-text">File size max 3MB</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="btn-wrap">
+        <a class="btn btn-outline-primary" href="/cars">Cancel</a>
+        <button type="submit" class="btn btn-primary ms-3">Save</button>
+      </div>
+    </div>
+  </form>
+</div>
